@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close">
+
+		<property name="driverClassName">
+			<value>com.mysql.jdbc.Driver</value>
+		</property>
+
+		<property name="url">
+			<value>jdbc:mysql://localhost:3306/lrms</value>
+		</property>
+
+		<property name="username">
+			<value>root</value>
+		</property>
+
+		<property name="password">
+			<value>root</value>
+		</property>
+
+	</bean>
+
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+
+		<property name="dataSource">
+			<ref local="dataSource" />
+		</property>
+
+		<property name="mappingResources">
+			<list>
+				<value>com/lrms/entity/Admin.hbm.xml</value>
+				<value>com/lrms/entity/Teacher.hbm.xml</value>
+				<value>com/lrms/entity/Room.hbm.xml</value>
+				<value>com/lrms/entity/Student.hbm.xml</value>
+				<value>com/lrms/entity/Course.hbm.xml</value>
+			</list>
+		</property>
+
+
+		<property name="hibernateProperties">
+
+			<props>
+
+				<prop key="hibernate.dialect">
+					org.hibernate.dialect.MySQLDialect
+				</prop>
+				<prop key="hibernate.show_sql">true</prop>
+
+			</props>
+
+		</property>
+
+	</bean>
+
+	<bean id="transactionManager"
+		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+
+
+	<!-- adminDao -->
+	<bean id="adminDao" class="com.lrms.dao.impl.AdminDAOImpl" scope="singleton">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+
+	<bean id="adminServiceTarget" class="com.lrms.service.impl.AdminServiceImpl">
+		<property name="adminDao" ref="adminDao"></property>
+	</bean>
+
+	<bean id="adminService"
+		class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
+
+		<property name="target" ref="adminServiceTarget"></property>
+		<property name="transactionManager" ref="transactionManager"></property>
+
+		<property name="transactionAttributes">
+
+			<props>
+				<prop key="find*">PROPAGATION_REQUIRED,readOnly</prop>
+				<prop key="*">PROPAGATION_REQUIRED</prop>
+			</props>
+
+		</property>
+
+	</bean>
+	<bean id="AdminAction" class="com.lrms.action.admin.AdminAction" 
+		scope="prototype">
+		<property name="adminService" ref="adminService"></property>
+	</bean>
+	<bean id="LoginAction" class="com.lrms.action.LoginAction"
+		scope="prototype">
+		<property name="adminService" ref="adminService"></property>
+		<property name="teacherService" ref="teacherService"></property>
+		<property name="studentService" ref="studentService"></property>
+	</bean>
+		<bean id="ScanAdminAction" class="com.lrms.action.admin.ScanAdminAction" scope="prototype">
+		<property name="adminService" ref="adminService"></property>
+	</bean>
+	<!-- TeacherDao -->
+	<bean id="teacherDao" class="com.lrms.dao.impl.TeacherDAOImpl" scope="singleton">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+
+	<bean id="teacherServiceTarget" class="com.lrms.service.impl.TeacherServiceImpl">
+		<property name="teacherDao" ref="teacherDao"></property>
+	</bean>
+
+	<bean id="teacherService"
+		class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
+
+		<property name="target" ref="teacherServiceTarget"></property>
+		<property name="transactionManager" ref="transactionManager"></property>
+
+		<property name="transactionAttributes">
+
+			<props>
+				<prop key="find*">PROPAGATION_REQUIRED,readOnly</prop>
+				<prop key="*">PROPAGATION_REQUIRED</prop>
+			</props>
+
+		</property>
+
+	</bean>
+	<bean id="teacherAction" class="com.lrms.action.teacher.TeacherAction" scope="prototype">
+		<property name="teacherService" ref="teacherService"></property>
+	</bean>
+	<bean id="ScanTeacherAction" class="com.lrms.action.teacher.ScanTeacherAction" scope="prototype">
+		<property name="teacherService" ref="teacherService"></property>
+	</bean>
+	<!-- RoomDao -->
+	<bean id="roomDao" class="com.lrms.dao.impl.RoomDAOImpl" scope="singleton">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+
+	<bean id="roomServiceTarget" class="com.lrms.service.impl.RoomServiceImpl">
+		<property name="roomDao" ref="roomDao"></property>
+	</bean>
+
+	<bean id="roomService"
+		class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
+
+		<property name="target" ref="roomServiceTarget"></property>
+		<property name="transactionManager" ref="transactionManager"></property>
+
+		<property name="transactionAttributes">
+
+			<props>
+				<prop key="find*">PROPAGATION_REQUIRED,readOnly</prop>
+				<prop key="*">PROPAGATION_REQUIRED</prop>
+			</props>
+
+		</property>
+
+	</bean>
+	<bean id="roomAction" class="com.lrms.action.room.RoomAction" scope="prototype">
+		<property name="roomService" ref="roomService"></property>
+	</bean>
+	<bean id="ScanRoomAction" class="com.lrms.action.room.ScanRoomAction" scope="prototype">
+		<property name="roomService" ref="roomService"></property>
+	</bean>
+	<!-- StudentDao -->
+	<bean id="studentDao" class="com.lrms.dao.impl.StudentDAOImpl" scope="singleton">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+
+	<bean id="studentServiceTarget" class="com.lrms.service.impl.StudentServiceImpl">
+		<property name="studentDao" ref="studentDao"></property>
+	</bean>
+
+	<bean id="studentService"
+		class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
+
+		<property name="target" ref="studentServiceTarget"></property>
+		<property name="transactionManager" ref="transactionManager"></property>
+
+		<property name="transactionAttributes">
+
+			<props>
+				<prop key="find*">PROPAGATION_REQUIRED,readOnly</prop>
+				<prop key="*">PROPAGATION_REQUIRED</prop>
+			</props>
+
+		</property>
+
+	</bean>
+	<bean id="StudentAction" class="com.lrms.action.student.StudentAction" scope="prototype">
+		<property name="studentService" ref="studentService"></property>
+		<property name="teacherService" ref="teacherService"></property>
+	</bean>
+	<bean id="ScanStudentAction" class="com.lrms.action.student.ScanStudentAction" scope="prototype">
+		<property name="studentService" ref="studentService"></property>
+	</bean>
+	<!-- CourseDao -->
+	<bean id="courseDao" class="com.lrms.dao.impl.CourseDAOImpl" scope="singleton">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+
+	<bean id="courseServiceTarget" class="com.lrms.service.impl.CourseServiceImpl">
+		<property name="courseDao" ref="courseDao"></property>
+	</bean>
+
+	<bean id="courseService"
+		class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
+
+		<property name="target" ref="courseServiceTarget"></property>
+		<property name="transactionManager" ref="transactionManager"></property>
+
+		<property name="transactionAttributes">
+
+			<props>
+				<prop key="find*">PROPAGATION_REQUIRED,readOnly</prop>
+				<prop key="*">PROPAGATION_REQUIRED</prop>
+			</props>
+
+		</property>
+
+	</bean>
+	<bean id="CourseAction" class="com.lrms.action.course.CourseAction" scope="prototype">
+		<property name="courseService" ref="courseService"></property>
+		<property name="roomService" ref="roomService"></property>
+		<property name="teacherService" ref="teacherService"></property>
+		<property name="studentService" ref="studentService"></property>
+	</bean>
+	<bean id="ScanCourseAction" class="com.lrms.action.course.ScanCourseAction" scope="prototype">
+		<property name="courseService" ref="courseService"></property>
+	</bean>
+</beans>

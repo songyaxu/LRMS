@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping
+PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="com.lrms.entity.Room" table="room">
+		<id name="id" column="id" type="int">
+			<generator class="identity"> 
+			</generator>
+		</id>
+		<property name="name" column="name" type="string"></property>
+		<property name="stuNum" column="stuNum" type="int"></property>
+		<property name="location" column="location" type="string"></property>
+		<property name="remark" column="remark" type="string"></property>
+	</class>
+</hibernate-mapping>
+

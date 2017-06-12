@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping
+PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="com.lrms.entity.Course" table="course">
+		<id name="id" column="id" type="int">
+			<generator class="identity"> 
+			</generator>
+		</id>
+		<property name="courseName" column="courseName" type="string"></property>
+		<property name="roomId" column="roomId" type="int"></property>
+		<property name="roomName" column="roomName" type="string"></property>
+		<property name="teacherId" column="teacherId" type="int"></property>
+		<property name="teacherName" column="teacherName" type="string"></property>
+		<property name="studentId" column="studentId" type="int"></property>
+		<property name="studentName" column="studentName" type="string"></property>
+		<property name="year" column="year" type="int"></property>
+		<property name="month" column="month" type="int"></property>
+		<property name="day" column="day" type="int"></property>
+		<property name="stuNum" column="stuNum" type="int"></property>
+		<property name="courseNo" column="courseNo" type="int"></property>
+		<property name="equipment" column="equipment" type="string"></property>
+		<property name="remark" column="remark" type="string"></property>
+		<property name="status" column="status" type="int"></property>
+	</class>
+</hibernate-mapping>
+

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<constant name="struts.i18n.encoding" value="UTF-8" />
+	<package name="public" extends="struts-default">
+		<action name="Login" class="LoginAction">
+			<result name="success" type="dispatcher">${pageContext.request.contextPath}/index.jsp</result>
+			<result name="input" type="dispatcher">${pageContext.request.contextPath}/login.jsp</result>
+			<result name="logout" type="redirect">${pageContext.request.contextPath}/login.jsp</result>
+		</action>
+		<action name="scanadmin" class="ScanAdminAction">
+			<result name="success">${pageContext.request.contextPath}/admin/listadmin.jsp</result>
+			<result name="NextPage">${pageContext.request.contextPath}/admin/listadmin.jsp</result>
+			<result name="frontPage">${pageContext.request.contextPath}/admin/listadmin.jsp</result>
+		</action>
+		<action name="scanteacher" class="ScanTeacherAction">
+			<result name="success">${pageContext.request.contextPath}/pub/listteacher.jsp</result>
+			<result name="NextPage">${pageContext.request.contextPath}/pub/listteacher.jsp</result>
+			<result name="frontPage">${pageContext.request.contextPath}/pub/listteacher.jsp</result>
+		</action>
+		<action name="scanroom" class="ScanRoomAction">
+			<result name="success">${pageContext.request.contextPath}/pub/listroom.jsp</result>
+			<result name="NextPage">${pageContext.request.contextPath}/pub/listroom.jsp</result>
+			<result name="frontPage">${pageContext.request.contextPath}/pub/listroom.jsp</result>
+		</action>
+		<action name="scanstudent" class="ScanStudentAction">
+			<result name="success">${pageContext.request.contextPath}/pub/liststudent.jsp</result>
+			<result name="NextPage">${pageContext.request.contextPath}/pub/liststudent.jsp</result>
+			<result name="frontPage">${pageContext.request.contextPath}/pub/liststudent.jsp</result>
+		</action>
+		<action name="scancourse" class="ScanCourseAction">
+			<result name="success">${pageContext.request.contextPath}/pub/listcourse.jsp</result>
+			<result name="NextPage">${pageContext.request.contextPath}/pub/listcourse.jsp</result>
+			<result name="frontPage">${pageContext.request.contextPath}/pub/listcourse.jsp</result>
+		</action>
+	</package>
+	<package name="private" extends="json-default">
+		<action name="adminservice" class="AdminAction">
+			<result name="addSuccess" type="json"></result>
+			<result name="addFailure" type="json"></result>
+			<result name="updateFailure" type="json"></result>
+			<result name="updateSuccess" type="json"></result>
+			<result name="deleteFailure" type="json"></result>
+			<result name="deleteSuccess" type="json"></result>
+			<result name="edit">${pageContext.request.contextPath}/admin/edit.jsp</result>
+		</action>
+		<action name="teacherservice" class="teacherAction">
+			<result name="addSuccess" type="json"></result>
+			<result name="addFailure" type="json"></result>
+			<result name="updateFailure" type="json"></result>
+			<result name="updateSuccess" type="json"></result>
+			<result name="deleteFailure" type="json"></result>
+			<result name="deleteSuccess" type="json"></result>
+			<result name="edit">${pageContext.request.contextPath}/teacher/edit.jsp</result>
+		</action>
+		<action name="courseservice" class="CourseAction">
+			<result name="deleteSuccess" type="json"></result>
+			<result name="error" type="json"></result>
+			<result name="addFalse" type="json"></result>
+			<result name="addSuccess" type="json"></result>
+			<result name="updateSuccess" type="json"></result>
+			<result name="ok" type="json"></result>
+			<result name="false" type="json"></result>
+			<result name="success">${pageContext.request.contextPath}/pub/bookcourse.jsp</result>
+			<result name="check">${pageContext.request.contextPath}/pub/course.jsp</result>
+		</action>
+		<action name="roomservice" class="roomAction">
+			<result name="addSuccess" type="json"></result>
+			<result name="updateFailure" type="json"></result>
+			<result name="updateSuccess" type="json"></result>
+			<result name="deleteFailure" type="json"></result>
+			<result name="deleteSuccess" type="json"></result>
+			<result name="edit">${pageContext.request.contextPath}/admin/editroom.jsp</result>
+		</action>
+		<action name="studentservice" class="StudentAction">
+			<result name="editSuccess">${pageContext.request.contextPath}/teacher/addstudent.jsp</result>
+			<result name="updateError" type="json"></result>
+			<result name="update" type="json"></result>
+		</action>
+	</package>
+</struts>
